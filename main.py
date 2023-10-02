@@ -26,12 +26,14 @@ def extract_json_data():
 
 
 def remove_open_tag(data):
+    pass
+'''
     if ",\"open\":true" in data:
         data = data.replace(",\"open\":true", "")
         with open(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json'), 'w') as file:
             json.dump(data, file)
     return
-
+'''
 
 def offer_choice(json_string):
     json_dictionary = json.loads(json_string)  # Loads the string as a dictionary to easily extract vault paths
@@ -46,7 +48,9 @@ def offer_choice(json_string):
                             "without making any changes\n")
         if user_choice.isdigit() and 0 < int(user_choice) < counter:
             remove_open_tag(json_string)
-            open_vault(user_choice)
+            open_vault((vault_paths[int(user_choice) - 1]))
+        elif user_choice == 0:
+            create_vault()
         elif user_choice in {"q", "Q"}:
             print("Quitting program")
             exit()
@@ -54,11 +58,28 @@ def offer_choice(json_string):
             print("Input must be a valid integer or \"q\"")
 
 
-def open_vault(vault):
-    print(vault, " detected, open_vault online")
-# notice that it's receiving an integer. This number -1 should equal the required index for whichever vault
-# the user wants to open
-# remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
+def open_vault(vaultpath):
+    print(vaultpath, " detected, open_vault online. Uncomment to test!")
+    # receives a vaultpath. Simply launch obsidian.exe (...\appdata\local\obsidian)
+    # interact with GUI to open the desired folder as vault
+    # remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
+
+
+def create_vault():
+    pass
+    # Add code to create a folder in the vaults' directory. First ask for the name it should have.
+    # Remember to add Obsidian's limitations to vault names, using a while True to wait until getting
+    # valid input, and always offering an option to cancel creation and open a vault instead, or to exit the
+    # program alltogether.
+    # Once the user inputs a valid name, create the folder in the vaults' directory, give it the requested name,
+    # confirm the successful vault creation, and write a warning about how it must be opened once so that Obsidian
+    # can add the required formatting files (because right now it's just an empty folder), and then run
+    # offer_choice() again.
+
+
+# add an option: entering 0 allows you to create a vault (simply create a folder within the vaults folder and offer
+#   the user to rename it. Obsidian will automatically add into the folder whatever it needs when it is opened as a vault
+#   for the first time.
 
 
 def main():
