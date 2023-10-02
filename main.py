@@ -59,8 +59,8 @@ def remove_open_tag(data):
     return
 
 
-def open_vault(vaultpath):
-    print(vaultpath, " detected, open_vault online. Uncomment to test!")
+def open_vault(vault_path):
+    print(vault_path, " detected, open_vault online. Uncomment to test!")
     # receives a vaultpath. Simply launch obsidian.exe (...\appdata\local\obsidian)
     # interact with GUI to open the desired folder as vault
     # remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
