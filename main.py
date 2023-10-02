@@ -1,14 +1,15 @@
 import os
 import json
 
+
 """
 This program opens an Obsidian vault for you.
 It finds the obsidian.json file in the Obsidian appdata folder and extracts the existing vaults and their paths.
 Then it offers a list of vaults for the user to choose which to open.
-This .json file keeps a tag to indicate which vault should be opened automatically on startup. In order for the
+The obsidian.json file keeps a tag to indicate which vault should be opened automatically on startup. In order for this
 program to work, this behavior must be avoided. Obsidian offers no settings to facilitate this, but it can be achieved
 by deleting the tag from the .json before opening Obsidian.
-Once that is done, the program opes Obsidian and interacts with the launcher GUI to open the desired vault,
+Once that is done, the program opens Obsidian and interacts with the launcher GUI to open the desired vault,
 entering the corresponding directory (which was already found and saved in the first step).
 Finally, the program exits.
 """
@@ -24,7 +25,6 @@ def extract_json_data():
         exit()
 
 
-
 def remove_open_tag(data):
     if ",\"open\":true" in data:
         data = data.replace(",\"open\":true", "")
@@ -35,12 +35,12 @@ def remove_open_tag(data):
 
 def offer_choice(json_string):
     json_dictionary = json.loads(json_string)  # Loads the string as a dictionary to easily extract vault paths
-    vault_paths = [entry['path'] for entry in json_dictionary['vaults'].values()]  #  Creates a list with the vault paths
+    vault_paths = [entry['path'] for entry in json_dictionary['vaults'].values()]  # Creates a list with the vault paths
     print("The following vaults have been found:")
     counter = 1
     for path in vault_paths:
         print(f"{counter} - {os.path.basename(path)}")
-        counter += 1
+        counter += 1  # counter variable to print the list with numbers 1...n
     while True:
         user_choice = input("Press the corresponding number to open a vault, or enter \"q\" to quit this program "
                             "without making any changes\n")
