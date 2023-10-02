@@ -24,35 +24,42 @@ def extract_json_data():
         exit()
 
 
+
 def remove_open_tag(data):
-    # HERE: the variable data contains the json_string. Add code to remove the open tag from there.
-    with open('address', 'w') as file:
-        json.dump(data, file)
+    if ",\"open\":true" in data:
+        data = data.replace(",\"open\":true", "")
+        with open(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json'), 'w') as file:
+            json.dump(data, file)
     return
 
 
-
 def offer_choice(json_string):
+    json_dictionary = json.loads(json_string)  # Loads the string as a dictionary to easily extract vault paths
+    vault_paths = [entry['path'] for entry in json_dictionary['vaults'].values()]  #  Creates a list with the vault paths
+    print("The following vaults have been found:")
+    counter = 1
+    for path in vault_paths:
+        print(f"{counter} - {os.path.basename(path)}")
+        counter += 1
+    while True:
+        user_choice = input("Press the corresponding number to open a vault, or enter \"q\" to quit this program "
+                            "without making any changes\n")
+        if user_choice.isdigit() and 0 < int(user_choice) < counter:
+            remove_open_tag(json_string)
+            open_vault(user_choice)
+        elif user_choice in {"q", "Q"}:
+            print("Quitting program")
+            exit()
+        else:
+            print("Input must be a valid integer or \"q\"")
 
 
-    # next step: extract vault name + address from the variable holding the json data string
-    # lists options and asks the user what to open, or offers to quit
-    # if the user chooses to quit, exit. No changes are made at all
-    # if the user chooses a vault, summon remove_open_tag(json_data_dictionary)
-    #   and then the function to manipulate the Obsidian GUI. Alternatively, do that directly here but then
-    #   rename this "handle_choice(json_data_dictionary)"
+def open_vault(vault):
+    print(vault, " detected, open_vault online")
+# notice that it's receiving an integer. This number -1 should equal the required index for whichever vault
+# the user wants to open
+# remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
 
-# def open_vault(AS TOLD FROM offer_choice):
-
-
-"""
-NOTE FOR THE FUNCTION FISHING UP ADDRESSES FROM .JSON: COPY .JSON TO A VARIABLE, THEN EDIT .JSON TO REMOVE TAG, AND
-SAVE+CLOSE .JSON. THEN FIND THE ADDRESSES IN THE VARIABLE DIRECTLY! Why? Because for small text it's more efficient to
-work from memory than to read from a file, and since this .json only contains vault addresses and a couple tags, it's
-reasonable to expect that it won't ever be too large.
-And we're doing this to launch a program that's much heavier than the weight of that .json in the ram, so obviously
-we expect to have that much ram free right now.
-"""
 
 def main():
     offer_choice(extract_json_data())
