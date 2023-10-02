@@ -25,16 +25,6 @@ def extract_json_data():
         exit()
 
 
-def remove_open_tag(data):
-    pass
-'''
-    if ",\"open\":true" in data:
-        data = data.replace(",\"open\":true", "")
-        with open(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json'), 'w') as file:
-            json.dump(data, file)
-    return
-'''
-
 def offer_choice(json_string):
     json_dictionary = json.loads(json_string)  # Loads the string as a dictionary to easily extract vault paths
     vault_paths = [entry['path'] for entry in json_dictionary['vaults'].values()]  # Creates a list with the vault paths
@@ -45,17 +35,28 @@ def offer_choice(json_string):
         counter += 1  # counter variable to print the list with numbers 1...n
     while True:
         user_choice = input("Press the corresponding number to open a vault, or enter \"q\" to quit this program "
-                            "without making any changes\n")
-        if user_choice.isdigit() and 0 < int(user_choice) < counter:
-            remove_open_tag(json_string)
-            open_vault((vault_paths[int(user_choice) - 1]))
-        elif user_choice == 0:
-            create_vault()
+                            "without making any changes:\n")
+        if user_choice.isdigit():
+            if 0 < int(user_choice) < counter:
+                remove_open_tag(json_string)
+                open_vault((vault_paths[int(user_choice) - 1]))
+            elif user_choice.isdigit() and int(user_choice) == 0:
+                create_vault(os.path.dirname(path))
+            else:
+                print("Invalid number. Input must be a valid vault number or 0")
         elif user_choice in {"q", "Q"}:
             print("Quitting program")
             exit()
         else:
             print("Input must be a valid integer or \"q\"")
+
+
+def remove_open_tag(data):
+    if ",\"open\":true" in data:
+        data = data.replace(",\"open\":true", "")
+        with open(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json'), 'w') as file:
+            json.dump(data, file)
+    return
 
 
 def open_vault(vaultpath):
@@ -65,21 +66,27 @@ def open_vault(vaultpath):
     # remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
 
 
-def create_vault():
-    pass
-    # Add code to create a folder in the vaults' directory. First ask for the name it should have.
-    # Remember to add Obsidian's limitations to vault names, using a while True to wait until getting
-    # valid input, and always offering an option to cancel creation and open a vault instead, or to exit the
-    # program alltogether.
-    # Once the user inputs a valid name, create the folder in the vaults' directory, give it the requested name,
-    # confirm the successful vault creation, and write a warning about how it must be opened once so that Obsidian
-    # can add the required formatting files (because right now it's just an empty folder), and then run
-    # offer_choice() again.
-
-
-# add an option: entering 0 allows you to create a vault (simply create a folder within the vaults folder and offer
-#   the user to rename it. Obsidian will automatically add into the folder whatever it needs when it is opened as a vault
-#   for the first time.
+def create_vault(vaults_folder):
+    while True:
+        desired_name = input("Enter name for the new vault. It must be <= 260 characters, and can't include \\/:*?\"<>|"
+                             "\n>>> NOTE: the vault will be opened immediately and this program will exit. This step is necessary"
+                             ">>> for the vault to be initialized and obsidian.json to be updated by Obsidian."
+                             "\nAlternatively, enter an empty string to go back to the previous menu:")
+        if desired_name == "":
+            return
+        elif not any(char in '\\/:*?\"<>|' for char in desired_name):
+            if len(desired_name) <= 260:
+                try:
+                    new_vault = os.path.join(vaults_folder, desired_name)
+                    os.makedirs(new_vault)
+                    print("The requested folder has been created and may be opened as a vault. It will now be opened.")
+                    open_vault(new_vault)
+                except FileExistsError:
+                    print("This vault already exists")
+            else:
+                print(f"Unable to create vault: must be <= 260 characters. Current count: {len(desired_name)} characters")
+        else:
+            print("Unable to create vault: name may not include \\/:*?\"<>|")
 
 
 def main():
