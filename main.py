@@ -55,14 +55,15 @@ def remove_open_tag(data):
     if ",\"open\":true" in data:
         data = data.replace(",\"open\":true", "")
         with open(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json'), 'w') as file:
-            json.dump(data, file)
+            file.write(data)
     return
 
 
 def open_vault(vault_path):
     print(vault_path, " detected, open_vault online. Uncomment to test!")
-    # receives a vaultpath. Simply launch obsidian.exe (...\appdata\local\obsidian)
-    # interact with GUI to open the desired folder as vault
+    # receives a vault_path. Simply launch obsidian.exe (C:\Users\Mapos\AppData\Local\Obsidian , remember there's up there
+    # this method to autoadd the whole user part to \AppData... so it should be quite easy).
+    # interact with GUI to open the desired folder as vault using PYAUTOGUI. not pywinauto! That's for windows!
     # remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
 
 
