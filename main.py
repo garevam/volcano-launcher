@@ -45,7 +45,9 @@ def offer_choice(json_string):
                 open_vault((vault_paths[int(user_choice) - 1]))
                 return
             elif user_choice.isdigit() and int(user_choice) == 0:
-                create_vault(os.path.dirname(path))
+                create_vault(os.path.dirname(path))  # This "path" is taken from the for loop right before. It references
+                # the last path that was checked, and takes the directory name. This will cause trouble if a user attempts
+                # to keep vaults in different folders.
             else:
                 print("Invalid number. Input must be a valid vault number or 0")
         elif user_choice in {"q", "Q"}:
@@ -65,7 +67,7 @@ def remove_open_tag(data):
 
 def open_vault(vault_path):
     try:
-        obsidian = subprocess.Popen(os.path.expanduser('~\\AppData\\Local\\obsidian\\obsidian.exe'))
+        subprocess.Popen(os.path.expanduser('~\\AppData\\Local\\obsidian\\obsidian.exe'))
     except FileNotFoundError:
         print("Error: the 'obsidian.exe' file couldn't be found in the appdata\\local\\obsidian folder."
               "\nSorry, this program does not currently support alternative installation folders.\nProgram will exit now.")
@@ -104,9 +106,9 @@ def find_obsidian_window():
 def create_vault(vaults_folder):
     while True:
         desired_name = input("Enter name for the new vault. It must be <= 260 characters, and can't include \\/:*?\"<>|"
-                             "\n>>> NOTE: the vault will be opened immediately and this program will exit. This step is necessary"
-                             ">>> for the vault to be initialized and obsidian.json to be updated by Obsidian."
-                             "\nAlternatively, enter an empty string to go back to the previous menu:")
+                             "\n>>> NOTE: the new vault will be opened immediately and this program will exit. This step <<<\n"
+                             ">>> is necessary for the vault to be initialized and obsidian.json to be updated by Obsidian <<<"
+                             "\nAlternatively, enter an empty string to go back to the previous menu:\n")
         if desired_name == "":
             return
         elif not any(char in '\\/:*?\"<>|' for char in desired_name):
@@ -119,7 +121,7 @@ def create_vault(vaults_folder):
                 except FileExistsError:
                     print("This vault already exists")
             else:
-                print(f"Unable to create vault: must be <= 260 characters. Current count: {len(desired_name)} characters")
+                print(f"Unable to create vault: must be <= 260 characters. Current count: {len(desired_name)} characters\n")
         else:
             print("Unable to create vault: name may not include \\/:*?\"<>|")
 

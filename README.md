@@ -51,10 +51,9 @@ executing the click. Correcting this fixed the entire issue. Very fortunately, b
 
 > Limitations
 
-- A standard installation is assumed: the default location of Obsidian is in ...\appdata\local\obsidian, while the
-file obsidian.json file is found in ...\appdata\roaming\obsidian. Any changes here will break the program.
-- Due to the (at this point) lack of an official API (that can be reached from outside of an Obsidian document), it is
-necessary to manually press the buttons of the launcher. This slows down the execution time considerably.
+- A standard installation is assumed: the default location of Obsidian is in ...\appdata\local\obsidian, while the  file obsidian.json file is found in ...\appdata\roaming\obsidian. Any changes here will break the program.
+- Due to the (at this point) lack of an official API (that can also be reached from outside of an Obsidian document), it is necessary to manually press the buttons of the launcher. This slows down the execution time considerably.
+- While Obsidian doesn't technically force the user to keep all vaults in a single folder, it's intended behavior. This program allows multiple locations as long as they're known to Obsidian. The Create Vault function might create the new vault in the wrong folder, though, since it'll always choose the location of the vault listed last in obsidian.json
 
 > Future development possibilities
 
