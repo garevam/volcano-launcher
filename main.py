@@ -1,6 +1,9 @@
 import os
 import json
-
+import subprocess
+from pywinauto import Application
+import time
+import pyautogui
 
 """
 This program opens an Obsidian vault for you.
@@ -16,12 +19,12 @@ Finally, the program exits.
 
 
 def extract_json_data():
-    if os.path.exists(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json')):
+    try:
         with open(os.path.expanduser('~\\AppData\\Roaming\\obsidian\\obsidian.json'), "r") as file:
             return file.read()
             # Returns a string
-    else:
-        print("Error: the 'obsidian.json' file couldn't be found in the appdata\\roaming folder.\nProgram will exit now.")
+    except FileNotFoundError:
+        print("Error: the 'obsidian.json' file couldn't be found in the appdata\\roaming\\obsidian folder.\nProgram will exit now.")
         exit()
 
 
@@ -40,6 +43,7 @@ def offer_choice(json_string):
             if 0 < int(user_choice) < counter:
                 remove_open_tag(json_string)
                 open_vault((vault_paths[int(user_choice) - 1]))
+                return
             elif user_choice.isdigit() and int(user_choice) == 0:
                 create_vault(os.path.dirname(path))
             else:
@@ -60,11 +64,41 @@ def remove_open_tag(data):
 
 
 def open_vault(vault_path):
-    print(vault_path, " detected, open_vault online. Uncomment to test!")
-    # receives a vault_path. Simply launch obsidian.exe (C:\Users\Mapos\AppData\Local\Obsidian , remember there's up there
-    # this method to autoadd the whole user part to \AppData... so it should be quite easy).
-    # interact with GUI to open the desired folder as vault using PYAUTOGUI. not pywinauto! That's for windows!
-    # remember to exit() the program, or we'll stay stuck in the while True loop from offer_choice
+    try:
+        obsidian = subprocess.Popen(os.path.expanduser('~\\AppData\\Local\\obsidian\\obsidian.exe'))
+    except FileNotFoundError:
+        print("Error: the 'obsidian.exe' file couldn't be found in the appdata\\local\\obsidian folder."
+              "\nSorry, this program does not currently support alternative installation folders.\nProgram will exit now.")
+        exit()
+    time.sleep(1)
+    click_obsidian_button(vault_path)
+    return
+
+
+def click_obsidian_button(vault_path):
+    obsidian_window = find_obsidian_window()
+    try:
+        open_button = obsidian_window.child_window(title="Open", control_type='Button')
+        open_button.click_input()
+    except Exception as e:
+        print(f"Error clicking the \"Open\" button: {e}")
+    try:
+        pyautogui.write(vault_path)
+        pyautogui.press("tab")  # This tab ensures that the cursor moves to the Select Folder button before pressing Enter.
+        pyautogui.press("enter")
+    except Exception as e:
+        print(f"Error entering the chosen vault into the Select Folder dialog: {e}")
+    return
+
+
+def find_obsidian_window():
+    try:
+        app = Application(backend="uia").connect(title="Obsidian")
+        main_window = app.top_window()
+        return main_window
+    except Exception as e:
+        print(f"Error finding Obsidian window: {e}")
+        exit()
 
 
 def create_vault(vaults_folder):
