@@ -19,7 +19,8 @@ This software or I are not in any way associated with or part of Obsidian.
 
 ### To do
 
-- Pack as a comfortable executable file.
+- Maintenance, keeping up with Obsidian's changes.
+- This program is currently functional and complete. There's some potential for development, but other projects have more priority now.
 
 ### How does it work?
 
@@ -40,16 +41,8 @@ atomization is intended to make it easier to fix if an Obsidian update breaks co
 
 ### What did I use to make it?
 
-It's a simple Python script with some standard libraries, pywinauto and pyautogui.
-
-### Challenges?
-
-I had never written a program before to interact with another programs' GUI and I had quite a lot of trouble getting
-it to click the Open button: I kept getting an error about there being 4 different "Open" buttons. In the end, and after
-carefully studying the GUI with the inspect.exe tool from the Windows SDK to find some unique identifier, I noticed that
-I had placed the 'time.sleep(1)' in the wrong location, so the program was not waiting for the GUI to open before
-executing the click. Correcting this fixed the entire issue. Very fortunately, because I couldn't find more than one
-"Open" button.
+It's a simple Python script with some standard libraries, pywinauto and pyautogui. The file "Volcano launcher" should
+run out of the box.
 
 ### Limitations
 
@@ -59,15 +52,27 @@ executing the click. Correcting this fixed the entire issue. Very fortunately, b
 
 ### Future development possibilities
 
-- Increase execution speed by replacing the 'time.wait(1)' command in line 73 with a function to continuously check whether the window is ready for the click
+- Should Obsidian add an official CLI, rewrite the program to use it instead of clicking the GUI.
 - Support for different filepaths than default, with an automated search function, an option for manual input, and a config file to save the address for future reference
 - Linux support, with automatic system identification + (Support for different filepaths...)
 - Some extra tools to rename vaults, duplicate them, archive them...
 - GUI
 
+
+## Personal aspects
+
+### Challenges
+
+I had never written a program before to interact with another programs' GUI and I had quite a lot of trouble getting
+it to click the Open button: I kept getting an error about there being 4 different "Open" buttons. In the end, and after
+carefully studying the GUI with the inspect.exe tool from the Windows SDK to find some unique identifier, I noticed that
+I had placed the 'time.sleep(1)' in the wrong location, so the program was not waiting for the GUI to open before
+executing the click. Correcting this fixed the entire issue. Very fortunately, because I couldn't find more than one
+"Open" button.
+
 ### What did I learn?
 
-I got to mess with some libraries and get a taste of manipulating external GUIs. The main lesson was to pay attention to timing
+I got to mess with some Python libraries and get a taste of manipulating external GUIs. The main lesson was to pay attention to timing
 when interacting with a different program.
 
 ### Disappointment
