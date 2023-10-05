@@ -2,8 +2,8 @@ import os
 import json
 import subprocess
 from pywinauto import Application
-import time
 import pyautogui
+
 
 """
 This program opens an Obsidian vault for you.
@@ -45,9 +45,9 @@ def offer_choice(json_string):
                 open_vault((vault_paths[int(user_choice) - 1]))
                 return
             elif user_choice.isdigit() and int(user_choice) == 0:
-                create_vault(os.path.dirname(path))  # This "path" is taken from the for loop right before. It references
-                # the last path that was checked, and takes the directory name. This will cause trouble if a user attempts
-                # to keep vaults in different folders.
+                create_vault(os.path.dirname(path))  # This "path" is taken from the for loop right above. It references
+                # the last path that was checked, and takes its directory name. This will cause trouble if a user who keeps
+                # vaults in different folders attempts to use this function.
             else:
                 print("Invalid number. Input must be a valid vault number or 0")
         elif user_choice in {"q", "Q"}:
@@ -72,7 +72,6 @@ def open_vault(vault_path):
         print("Error: the 'obsidian.exe' file couldn't be found in the appdata\\local\\obsidian folder."
               "\nSorry, this program does not currently support alternative installation folders.\nProgram will exit now.")
         exit()
-    time.sleep(1)
     click_obsidian_button(vault_path)
     return
 
@@ -94,12 +93,14 @@ def click_obsidian_button(vault_path):
 
 
 def find_obsidian_window():
-    try:
-        app = Application(backend="uia").connect(title="Obsidian")
-        main_window = app.top_window()
-        return main_window
-    except Exception as e:
-        print(f"Error finding Obsidian window: {e}")
+    app = None
+    while app is None:
+        try:
+            app = Application(backend="uia").connect(title="Obsidian")
+        except Exception as e:
+            print(f"Looking for Obsidian... Actual error code: {e}")
+    main_window = app.top_window()
+    return main_window
 
 
 def create_vault(vaults_folder):
