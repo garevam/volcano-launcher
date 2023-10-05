@@ -100,7 +100,6 @@ def find_obsidian_window():
         return main_window
     except Exception as e:
         print(f"Error finding Obsidian window: {e}")
-        exit()
 
 
 def create_vault(vaults_folder):
