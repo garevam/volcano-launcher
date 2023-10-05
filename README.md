@@ -10,7 +10,7 @@ last used vault), or users who regularly switch between 4-5 vaults (through the 
 separate vaults for different purposes and only rarely access some of them. Volcano should help bridge that gap, allowing
 quick access to all vaults.
 
-Obsidian is currently under active development, which might break compatibility with this program.
+Obsidian is currently under active and rapid development, which might break compatibility with this program.
 
 Built with Python.
 Tested on Windows 10, with Obsidian 1.4.13. It works on my machine as of 05.10.2023; your mileage may vary.
@@ -41,8 +41,8 @@ atomization is intended to make it easier to fix if an Obsidian update breaks co
 
 ### What did I use to make it?
 
-It's a simple Python script with some standard libraries, pywinauto and pyautogui. The file "Volcano launcher" should
-run out of the box.
+It's a simple Python script with some standard libraries, pywinauto and pyautogui. The compiled executable "Volcano launcher"
+should run out of the box, although it's probably necessary to have Python installed for it to run.
 
 ### Limitations
 
