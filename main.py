@@ -128,7 +128,7 @@ def create_vault(vaults_folder):
 
 def main():
     offer_choice(extract_json_data())
-
+    return
 
 if __name__ == '__main__':
     main()
