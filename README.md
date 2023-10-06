@@ -12,7 +12,7 @@ quick access to all vaults.
 
 Obsidian is currently under active and rapid development, which might break compatibility with this program.
 
-Built with Python.
+Built with Python 3.11.3.
 Tested on Windows 10, with Obsidian 1.4.13. It works on my machine as of 05.10.2023; your mileage may vary.
 
 This software or I are not in any way associated with or part of Obsidian.
