@@ -39,7 +39,7 @@ Volcano removes first the tag from obsidian.json before running Obsidian, to ens
 This program's functions are very atomic, maybe a bit too much, but Obsidian is currently under rapid development. The
 atomization is intended to make it easier to fix if an Obsidian update breaks compatibility.
 
-### What did I use to make it?
+### Requirements
 
 It's a simple Python script with some standard libraries, pywinauto and pyautogui. The compiled executable "Volcano launcher"
 should run out of the box, although it's probably necessary to have Python installed for it to run.
