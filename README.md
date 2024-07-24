@@ -1,3 +1,7 @@
+# DEPRECATED
+As of July 2024, Obsidian has finally added some functionality to easily switch between vaults. While it doesn't yet have an efficient quick launcher for uses with many vaults, switching between them is now painless enough that I don't need this program anymore. I will not be keeping Volcano Launcher updated or continue development.
+I'll leave it online, but considering the way it works (see description below) I'd recomment not using it with newer versions of Obsidian to prevent unforeseen problems.
+
 # volcano-launcher
 Volcano is a launcher for the personal wiki software Obsidian. The purpose of Volcano is to make it easier to open
 Obsidian with a  specific vault (wiki), and to do so as fast as possible. The only extra feature is creating a new empty
@@ -52,7 +56,7 @@ should run out of the box, although it's probably necessary to have Python insta
 
 ### Future development possibilities
 
-- Should Obsidian add an official CLI, rewrite the program to use it instead of clicking the GUI.
+- Should Obsidian add an official CLI, rewrite the program to use it instead of awkwardly clicking the GUI.
 - Support for different filepaths than default, with an automated search function, an option for manual input, and a config file to save the address for future reference
 - Linux support, with automatic system identification + (Support for different filepaths...)
 - Some extra tools to rename vaults, duplicate them, archive them...
